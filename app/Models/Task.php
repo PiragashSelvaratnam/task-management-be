@@ -16,6 +16,7 @@ class Task extends Model
         'priority',
         'due_date',
         'assigned_to',
+        'created_by',
     ];
 
     protected function casts(): array
@@ -30,5 +31,14 @@ class Task extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+    public function assignedTo()
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 }
