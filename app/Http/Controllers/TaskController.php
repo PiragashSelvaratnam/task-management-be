@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskRequest;
+use App\Http\Requests\TaskStatusRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Console\View\TaskResult;
@@ -51,16 +52,19 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function updateStatus()
+    public function updateStatus(TaskStatusRequest $request, Task $task)
     {
-        //
+        $data = $request->validated();
+        $task = Task::findOrFail($task->id);
+        $task->update(['status' => $data['status']]);
+        return response()->json(['Status update successfully!.'], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function assignTask(Request $request)
+    public function assignTask(Request $request, Task $task)
     {
-        //
+        
     }
 }
