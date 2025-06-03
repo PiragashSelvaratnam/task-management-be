@@ -11,13 +11,17 @@ use App\Models\User;
 use Illuminate\Console\View\TaskResult;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = \App\Models\Task::query()->get();
-        return response()->json(['data' => TaskResource::collection($tasks)], 200);
+        
+    $tasks = QueryBuilder::for(Task::class)
+    ->allowedFilters(['title', 'status'])
+    ->get();
+        return response()->json(['data' => TaskResource::collection(resource:$tasks)], 200);
     }
 
     /**

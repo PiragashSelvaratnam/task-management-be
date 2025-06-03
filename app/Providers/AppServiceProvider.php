@@ -5,6 +5,8 @@ namespace App\Providers;
 use Carbon\CarbonInterval;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class AppServiceProvider extends ServiceProvider
 {
