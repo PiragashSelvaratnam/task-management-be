@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AssignTaskRequest extends FormRequest
@@ -21,8 +22,9 @@ class AssignTaskRequest extends FormRequest
      */
     public function rules(): array
     {
+        
         return [
-            'id' => ['required', 'exists:tasks,id'],
+            'id' => ['required', 'exists:users,id'],
         ];
     }
 }
