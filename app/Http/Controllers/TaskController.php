@@ -21,7 +21,7 @@ class TaskController extends Controller
     $tasks = QueryBuilder::for(Task::class)
     ->allowedFilters(['title', 'status'])
     ->get();
-        return response()->json(['data' => TaskResource::collection(resource:$tasks)], 200);
+        return TaskResource::collection($tasks);
     }
 
     /**
@@ -32,7 +32,7 @@ class TaskController extends Controller
         $data['assigned_to'] = Auth::id();;
         $data["created_by"] = Auth::id();;
         $task = Task::create($data);
-        return response()->json(['data' => new TaskResource($task)], 201);
+        return new TaskResource($task);
     }
 
     public function show($id)

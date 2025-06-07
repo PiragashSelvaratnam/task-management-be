@@ -18,16 +18,27 @@ class AuthController extends Controller
         $data = $request->validated();
 
         $user = User::whereEmail($data['email'])->first();
-
-        if ($user && Hash::check($data['password'], $user->password)) {
-            return response()->json(["user" => new UserResource($user), 
-            'accessToken' => $user->createToken('API Token')->accessToken,], 200);
+        if (!$user) {
+            return response()->json([
+                'message' => 'The provided credentials are incorrect.',
+                'errors' => [
+                    'email' => ['The provided email is incorrect.']
+                ],
+            ], 401);
         }
 
-        return response()->json([
-            'message' => 'Incorrect email or password.',
-            'state' => 'incorrect-credentials',
-        ], 401);
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'The provided credentials are incorrect.',
+                'errors' => [
+                    'password' => ['The provided password is incorrect.']
+                ],
+            ], 401);
+        }
+
+
+        return response()->json(['data' => ["user" => new UserResource($user), 
+            'accessToken' => $user->createToken('API Token')->accessToken,]], 200);
         
     }
    
